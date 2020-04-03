@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "django_settings": "tx_covid.tx_covid.settings",
+        "profile_name": "default",
+        "project_name": "backend",
+        "runtime": "python3.8",
+        "s3_bucket": "zappa-tx-covid"
+    }
+}
