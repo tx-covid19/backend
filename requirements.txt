@@ -1,3 +1,4 @@
 django
 zappa
 psycopg2
+PyCap
