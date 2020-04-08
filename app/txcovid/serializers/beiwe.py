@@ -6,40 +6,51 @@ from ..models import Survey, Accelerometer, GPS, Identifier, Proximity, Reachabi
 class SurveySerializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class AccelerometerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Accelerometer
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class GPSSerializer(serializers.ModelSerializer):
     class Meta:
         model = GPS
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class IdentifierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identifier
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class ProximitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Proximity
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class ReachabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reachability
-        fields = '__all__'
+        exclude = ['id', 'patient']
 
 
 class ScreenTimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScreenTime
-        fields = '__all__'
+        exclude = ['id', 'patient']
+
+
+class BeiweSerializer(serializers.Serializer):
+    patient_id = serializers.CharField(max_length=8)
+    survey = SurveySerializer(many=True, required=False)
+    accelerometer = AccelerometerSerializer(many=True, required=False)
+    gps = AccelerometerSerializer(many=True, required=False)
+    identifiers = IdentifierSerializer(many=True, required=False)
+    proximity = ProximitySerializer(many=True, required=False)
+    reachability = ProximitySerializer(many=True, required=False)
+    screen_time = ScreenTimeSerializer(many=True, required=False)

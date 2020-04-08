@@ -12,7 +12,7 @@ class UserPatientRelation(models.Model):
 
 
 class AbstractAggregationModel(models.Model):
-    patient = models.ForeignKey(UserPatientRelation, on_delete=models.PROTECT)
+    patient = models.CharField(max_length=8, validators=[id_validator], unique=True)
     begin_timestamp = models.BigIntegerField()
     end_timestamp = models.BigIntegerField()
 
