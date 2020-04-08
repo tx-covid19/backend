@@ -1,6 +1,7 @@
-# from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField
 from django.core.validators import RegexValidator
 from django.db import models
+
 from .user import User
 
 id_validator = RegexValidator('^[1-9a-z]+$', message='This field can only contain characters 1-9 and a-z.')
@@ -22,7 +23,7 @@ class AbstractAggregationModel(models.Model):
 
 class Survey(AbstractAggregationModel):
     survey_id = models.CharField(max_length=8)
-    # answers = JSONField()
+    answers = JSONField()
     num_scheduled = models.PositiveIntegerField()
     num_completed = models.PositiveIntegerField()
 
