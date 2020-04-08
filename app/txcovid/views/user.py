@@ -2,17 +2,31 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers.user import ParticipantSerializer
+from ..serializers.user import UserSerializer
+from ..models import UserPatientRelation, User
 
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        serializer = ParticipantSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            if user:
-                json = serializer.data
-                return Response(json, status=status.HTTP_201_CREATED)
+            validated_data = serializer.validated_data
+            password = validated_data.pop('password', None)
+
+            if User.objects.filter(username=validated_data['username']).exists():
+                return Response({'msg': 'Username exists.'}, status=status.HTTP_303_SEE_OTHER)
+
+            user = User(**validated_data)
+            if password is not None:
+                user.set_password(password)
+            user.save()
+
+            if 'patient_id' in request.data:
+                patient_id = request.data['patient_id']
+                UserPatientRelation(user=user, patient_id=patient_id).save()
+
+            return Response(validated_data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

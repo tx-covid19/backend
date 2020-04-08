@@ -1,10 +1,10 @@
 from django.db import models
 
-from .user import Participant
+from .user import User
 
 
 class TrackRecord(models.Model):
-    user = models.ForeignKey(Participant, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     last_update = models.DateTimeField(auto_now=True)
 
     track_date = models.DateField(unique=True)

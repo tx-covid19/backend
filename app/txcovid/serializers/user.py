@@ -1,17 +1,20 @@
 from rest_framework import serializers
 
-from ..models import Participant
+from ..models import User
 
 
-class ParticipantSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
     address = serializers.CharField()
+    city = serializers.CharField()
+    state = serializers.CharField()
+    postal_code = serializers.CharField(max_length=5, min_length=5)
 
     class Meta:
-        model = Participant
-        fields = ('email', 'username', 'password', 'address')
+        model = User
+        fields = ('email', 'username', 'password', 'address', 'city', 'state', 'postal_code')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

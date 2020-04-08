@@ -1,14 +1,14 @@
 # from django.contrib.postgres.fields import JSONField
 from django.core.validators import RegexValidator
 from django.db import models
-from .user import Participant
+from .user import User
 
 id_validator = RegexValidator('^[1-9a-z]+$', message='This field can only contain characters 1-9 and a-z.')
 
 
 class UserPatientRelation(models.Model):
-    user = models.OneToOneField(Participant, on_delete=models.PROTECT)
-    patient_id = models.CharField(max_length=8, validators=[id_validator])
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    patient_id = models.CharField(max_length=8, validators=[id_validator], unique=True)
 
 
 class AbstractAggregationModel(models.Model):

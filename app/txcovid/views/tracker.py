@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
-from ..models import TrackRecord, Participant
+from ..models import TrackRecord, User
 from ..serializers.tracker import TrackerRecordSerializer
 
 
@@ -15,7 +15,7 @@ class TrackerListView(APIView):
 
     def post(self, request):
         try:
-            user = Participant.objects.get(username__exact=request.user)
+            user = User.objects.get(username__exact=request.user)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = TrackerRecordSerializer(data=request.data)

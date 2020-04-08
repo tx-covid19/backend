@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = "txcovid.Participant"
+AUTH_USER_MODEL = "txcovid.User"
 # Application definition
 
 INSTALLED_APPS = [
