@@ -4,6 +4,7 @@ from django.db import models
 
 # TODO add json field back
 class CovidCase(models.Model):
+    timestamp = models.DateTimeField(auto_now=True)
     nation_total = models.PositiveIntegerField()
     nation_deaths = models.PositiveIntegerField()
     tx_total = models.PositiveIntegerField()
