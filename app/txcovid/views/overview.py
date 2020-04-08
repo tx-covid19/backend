@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from ..models import TrackRecord, CovidCase, ScreenTime, UserPatientRelation, Survey, Accelerometer, GPS, Identifier, \
     Proximity, Reachability
-from ..serializers.beiwe import BeiweSerializer, SurveySerializer, AccelerometerSerializer, GPSSerializer, \
+from ..serializers.beiwe import SurveySerializer, AccelerometerSerializer, GPSSerializer, \
     IdentifierSerializer, ProximitySerializer, ReachabilitySerializer, ScreenTimeSerializer
 from ..serializers.info import CovidCaseSerializer
 from ..serializers.tracker import TrackerRecordSerializer
