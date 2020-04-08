@@ -2,3 +2,4 @@ from .beiwe import UserPatientRelation, Survey, Accelerometer, GPS, Identifier, 
 from .info import CovidCase
 from .tracker import TrackRecord
 from .user import User
+from .event import Event
