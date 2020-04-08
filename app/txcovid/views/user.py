@@ -36,3 +36,9 @@ class UserCreate(APIView):
             return Response(validated_data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfile(APIView):
+    def get(self, request):
+        username = request.user
+        return Response(UserSerializer(User.objects.get(username=username)).data)
