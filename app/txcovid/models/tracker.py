@@ -16,4 +16,4 @@ class TrackRecord(models.Model):
     mood = models.CharField(max_length=20)
 
     weight = models.FloatField()
-    fever = models.FloatField()
+    temperature = models.FloatField()
