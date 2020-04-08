@@ -4,7 +4,7 @@ from django.db import models
 from .user import User
 
 
-class EventRecord(models.Model):
+class Event(models.Model):
     """
     Model to track user interaction with the frontend.
     """
