@@ -6,6 +6,9 @@ from ..serializers.user import UserSerializer
 from ..models import UserPatientRelation, User
 
 
+# TODO: view/edit user profile
+
+
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
 

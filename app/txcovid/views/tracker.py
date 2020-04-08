@@ -6,6 +6,7 @@ from ..models import TrackRecord, User
 from ..serializers.tracker import TrackerRecordSerializer
 
 
+# TODO PUT and DELETE data
 class TrackerListView(APIView):
     def get(self, request):
         username = request.user

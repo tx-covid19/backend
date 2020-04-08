@@ -13,7 +13,6 @@ class OverviewView(APIView):
         username = request.user
         records = TrackerRecordSerializer(TrackRecord.objects.filter(user__username=username), many=True).data
         covid_cases = CovidCaseSerializer(CovidCase.objects.last()).data
-        # TODO: add API to connect patient to user
         bewei = {
             'ScreenTime': ScreenTimeSerializer(ScreenTime.objects.filter(patient__patient_id='12345678'),
                                                many=True).data
