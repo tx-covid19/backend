@@ -5,4 +5,4 @@ from ..models import CovidCase
 class CovidCaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = CovidCase
-        fields = '__all__'
+        exclude = ['counties_json']

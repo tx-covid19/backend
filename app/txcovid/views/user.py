@@ -2,8 +2,8 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers.user import UserSerializer
 from ..models import UserPatientRelation, User
+from ..serializers.user import UserSerializer
 
 
 # TODO: view/edit user profile
@@ -28,6 +28,8 @@ class UserCreate(APIView):
             user.save()
             if 'patient_id' in request.data:
                 patient_id = request.data['patient_id']
+                if len(patient_id) > 8:
+                    return Response({"patient": "Bad Id."}, status=status.HTTP_400_BAD_REQUEST)
                 if UserPatientRelation.objects.filter(patient_id=patient_id).exists():
                     return Response({'patient': 'Patient ID exists.'}, status=status.HTTP_303_SEE_OTHER)
                 UserPatientRelation(user=user, patient_id=patient_id).save()
@@ -35,3 +37,9 @@ class UserCreate(APIView):
             return Response(validated_data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfile(APIView):
+    def get(self, request):
+        username = request.user
+        return Response(UserSerializer(User.objects.get(username=username)).data)
