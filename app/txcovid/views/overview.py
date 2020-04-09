@@ -1,9 +1,10 @@
+import zipcodes
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import TrackRecord, CovidCase, ScreenTime, UserPatientRelation, Survey, Accelerometer, GPS, Identifier, \
-    Proximity, Reachability
+    Proximity, Reachability, User
 from ..serializers.beiwe import SurveySerializer, AccelerometerSerializer, GPSSerializer, \
     IdentifierSerializer, ProximitySerializer, ReachabilitySerializer, ScreenTimeSerializer
 from ..serializers.info import CovidCaseSerializer
@@ -31,11 +32,22 @@ class OverviewView(APIView):
         username = request.user
 
         records = TrackerRecordSerializer(TrackRecord.objects.filter(user__username=username), many=True).data
-        covid_cases = CovidCaseSerializer(CovidCase.objects.latest('timestamp')).data
+
+        covid_cases = CovidCase.objects.latest('timestamp')
+        postal = User.objects.get(username=username).postal_code
+        local_info = {}
+        if zipcodes.matching(postal):
+            county = zipcodes.matching(postal)[0]['county']
+            county_name = county.split(' ')[0]
+            if county_name in covid_cases.counties_json:
+                local_info['local_cases'] = covid_cases.counties_json[county_name]['total']
+                local_info['local_deaths'] = covid_cases.counties_json[county_name]['deaths']
+
         return Response(data={
             'tracker': records,
             'covid_cases': {
-                **covid_cases
+                **CovidCaseSerializer(covid_cases).data,
+                **local_info
             },
             'bewei': {
                 **self._get_beiwe(username)
