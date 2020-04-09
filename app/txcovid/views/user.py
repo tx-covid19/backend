@@ -18,21 +18,20 @@ class UserCreate(APIView):
             validated_data = serializer.validated_data
             password = validated_data.pop('password', None)
 
-            if User.objects.filter(username=validated_data['username']).exists():
-                return Response({'username': 'Username exists.'}, status=status.HTTP_303_SEE_OTHER)
+            if User.objects.filter(email=validated_data['email']).exists():
+                return Response({'email': 'E-mail exists.'}, status=status.HTTP_303_SEE_OTHER)
 
-            user = User(**validated_data)
+            user = User(**validated_data, is_active=False)
             if password is not None:
                 user.set_password(password)
 
+            user.save()
             if 'patient_id' in request.data:
                 patient_id = request.data['patient_id']
                 if UserPatientRelation.objects.filter(patient_id=patient_id).exists():
                     return Response({'patient': 'Patient ID exists.'}, status=status.HTTP_303_SEE_OTHER)
-                user.save()
                 UserPatientRelation(user=user, patient_id=patient_id).save()
-            else:
-                user.save()
+
             return Response(validated_data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
