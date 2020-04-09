@@ -9,12 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     username = serializers.CharField()
     password = serializers.CharField(min_length=8, write_only=True)
-    address = serializers.CharField(required=True)
-    city = serializers.CharField()
-    state = serializers.CharField()
-    postal_code = serializers.CharField(max_length=5, min_length=5)
+    postal_code = serializers.CharField(max_length=5, min_length=5, required=False)
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'first_name', 'last_name', 'password', 'address', 'city', 'state', 'postal_code')
+        fields = ('email', 'username', 'first_name', 'last_name', 'password', 'postal_code')
         extra_kwargs = {'password': {'write_only': True}}
